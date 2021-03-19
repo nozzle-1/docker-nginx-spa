@@ -1,0 +1,52 @@
+name: Docker
+
+on:
+  push:
+    branches:
+    - master
+    tags:
+      - v*
+
+env:
+  REGISTRY_USER: ${{ secrets.REGISTRY_USER }}
+
+jobs:
+  # Run tests.
+  # See also https://docs.docker.com/docker-hub/builds/automated-testing/
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Cache docker layers
+      uses: actions/cache@v2
+      with:
+        path: /tmp/.buildx-cache
+        key: ${{ runner.os }}-buildx-${{ github.sha }}
+        restore-keys: |
+          ${{ runner.os }}-buildx-
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v1
+
+    - name: Set up `docker buildx`
+      uses: docker/setup-buildx-action@v1
+
+    - name: Login to registry
+      uses: docker/login-action@v1
+      with:
+        registry: ghcr.io
+        username: ${{ secrets.REGISTRY_USER }}
+        password: ${{ secrets.REGISTRY_PASSWORD }}
+    - run: |
+        mkdir -p /tmp/.buildx-cache
+        IMAGE_TAG="ghcr.io/$REGISTRY_USER/docker-nginx-spa:latest"
+        docker buildx build . \
+          -f Dockerfile \
+          --push \
+          --platform linux/arm/v7,linux/arm/v6,linux/amd64 \
+          --cache-from type=local,src=/tmp/.buildx-cache \
+          --cache-to type=local,mode=max,dest=/tmp/.buildx-cache \
+          --label org.opencontainers.image.revision=${{ github.sha }} \
+          --label org.opencontainers.image.source="https://github.com/${{ github.repository }}" \
+          -t "${IMAGE_TAG}"
+  # Push
