@@ -1,6 +1,8 @@
-[![docker pull socialengine/nginx-spa][image shield]][docker hub]
-
 This is a Docker image used to serve a Single Page App (pure frontend javascript) using nginx, it support PushState, and includes a way to pass configuration at run time.
+
+This is a fork of [SocialEngine/docker-nginx-spa](https://github.com/SocialEngine/docker-nginx-spa). Changes include:
+- armv7/armv6/amd64 support (not just amd64)
+- Using `nginx:alpine-stable` as base
 
 ## Supported tags and `Dockerfile` links
 
@@ -18,7 +20,7 @@ This docker image is built for `index.html` file being in the `/app` directory. 
 At a minimum, you will want this in your `Dockerfile`:
 
 ```Dockerfile
-FROM socialengine/nginx-spa
+FROM ghcr.io/nikeee/docker-nginx-spa:latest
 
 COPY build/ /app
 COPY index.html /app/index.html
@@ -42,7 +44,7 @@ This is very useful in case your API is on a different domain, or if you want to
 
 ```bash
 $ docker run -e RAVEN_DSN=yourkey -e API_URL=http://myapi.example.com  \
-  -e CONFIG_VARS=API_URL,RAVEN_DSN -p 8000:80 socialengine/nginx-spa:latest
+  -e CONFIG_VARS=API_URL,RAVEN_DSN -p 8000:80 ghcr.io/nikeee/docker-nginx-spa:latest
  ==> Writing /app/config.js with {"RAVEN_DSN":"yourkey", "API_URL":"http://myapi.example.com"}
 ```
 
