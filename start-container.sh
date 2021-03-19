@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env sh
 
 if [[ $CONFIG_VARS ]]; then
 
