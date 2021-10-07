@@ -21,8 +21,8 @@ RUN mkdir /app
 RUN echo "<code>Add your index.html to /app: COPY index.html /app/index.html</code>" > /app/index.html
 
 # Copy our start script
-COPY start-container.sh /usr/local/bin/start-container
+#COPY start-container.sh /usr/local/bin/start-container
 
-ENTRYPOINT ["start-container"]
+#ENTRYPOINT ["start-container"]
 
 CMD ["nginx"]

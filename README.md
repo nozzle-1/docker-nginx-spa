@@ -11,7 +11,7 @@ This is a fork of [SocialEngine/docker-nginx-spa](https://github.com/SocialEngin
 ## Included on top of [base][base image] nginx image
 
 - [pushState][push state] support. Every request is routed to `/app/index.html`. Useful for the clean urls (no `!#`)
-- [ENV-based Config](#env-config)
+- ~~[ENV-based Config](#env-config)~~
 
 # App Setup
 
@@ -26,7 +26,7 @@ COPY build/ /app
 COPY index.html /app/index.html
 ```
 
-Then you can build & run your app in the docker container. It will be served by a nginx static server.
+~~Then you can build & run your app in the docker container. It will be served by a nginx static server.~~
 
 ```bash
 $ docker build -t your-app-image .
@@ -36,11 +36,11 @@ $ docker run -e API_KEY=yourkey -e API_URL=http://myapi.example.com \
 
 You can then go to `http://docker-ip:8000/` to see it in action.
 
-## Env Config
+## ~~Env Config~~
 
-Included is ability to pass `run` time environmental variables to your app.
+~~Included is ability to pass `run` time environmental variables to your app.~~
 
-This is very useful in case your API is on a different domain, or if you want to configure central error logging. 
+~~This is very useful in case your API is on a different domain, or if you want to configure central error logging.~~
 
 ```bash
 $ docker run -e RAVEN_DSN=yourkey -e API_URL=http://myapi.example.com  \
@@ -48,10 +48,14 @@ $ docker run -e RAVEN_DSN=yourkey -e API_URL=http://myapi.example.com  \
  ==> Writing /app/config.js with {"RAVEN_DSN":"yourkey", "API_URL":"http://myapi.example.com"}
 ```
 
-This will create a `config.js` file, which you can then add to your index.html, or load asynchronously. The path can be controlled with `CONFIG_FILE_PATH` environmental variable.
+~~This will create a `config.js` file, which you can then add to your index.html, or load asynchronously. The path can be controlled with `CONFIG_FILE_PATH` environmental variable.~~
 
 [push state]: https://developer.mozilla.org/en-US/docs/Web/API/History_API
 [latest]: https://github.com/SocialEngine/docker-nginx-spa/blob/master/Dockerfile
 [base image]: https://github.com/nginxinc/docker-nginx
 [image shield]: https://img.shields.io/badge/dockerhub-socialengine%2Fnginx--spa-blue.svg
 [docker hub]: https://registry.hub.docker.com/u/socialengine/nginx-spa/
+
+
+# TODO
+- Customize nginx headers 
